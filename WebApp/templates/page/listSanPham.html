@@ -1,0 +1,85 @@
+{% extends "page/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Link đến Bootstrap JavaScript và jQuery -->
+
+<div class="container">
+    <div class="row">
+        <!-- Product list on the right -->
+        <div id="mainNav" class="container-fluid border-top">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <ul class="nav navbar bg-light navbar-light">
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold text-dark" href="{% url 'ListSanPham' %}">
+                                <i class="fa-solid fa-house"></i> Trang chủ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold text-dark" href="">
+                                <i class="fa-solid fa-compass"></i> Giới thiệu
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="dropdown">
+                                <button id="btnDropdown" class="btn btn-light dropdown-toggle font-weight-bold" type="button" data-toggle="dropdown">
+                                    <i class="fa-solid fa-list"></i> Sản phẩm
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnDropdown">
+    
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold text-dark" href="">
+                                <i class="fa-solid fa-chalkboard-user"></i> Hướng dẫn mua hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold text-dark" href="">
+                                <i class="fa-solid fa-phone"></i> Liên hệ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <div class="container-fluid">
+                                <form class="d-flex" method="post" action="">
+                                    {% csrf_token %}
+                                    <input name="searchtxt" class="form-control mr-2" placeholder="Tìm kiếm sản phẩm" type="text">
+                                    <button class="btn btn-outline-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
+                {% for sp in listsanpham %}
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="{% static 'images/' %}{{ sp.HinhAnhDaiDien }}" class="card-img-top" alt="...">
+                       <!-- <div class="card-body">
+                            <h5 class="card-title">{{ sp.TenSanPham }}</h5>
+                            <p class="card-text">{{ sp.MoTa }}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between align-items-end">
+                            <div style="color: red;">{{ sp.Gia }} VND</div>
+                            <button type="button" class="btn btn-success">Mua hàng</button>
+                        </div> -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ sp.TenSanPham }}</h5>
+                            <p class="card-text">Giá: <span class="product-price">{{ sp.Gia }}</span> đ</p>
+                            <a href="" class="btn btn-primary">Xem Chi Tiết</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

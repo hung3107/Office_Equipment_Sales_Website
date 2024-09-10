@@ -1,0 +1,106 @@
+{% extends "page/layoutAdmin.html" %} {% block title %} Home {% endblock %} {%block content %}
+<div class="container w-100" style="padding-top: 50px">
+  <h1 class="h1">Danh sách các loại túi xách</h1>
+
+  <div class="row container">
+    <form method="get" action="/handbagsMaketplace/timkiemdanhmuc">
+      <div>Nhập tên loại sản phẩm:</div>
+      <input
+        class="title"
+        type="text"
+        name="q"
+        value="{{ query }}"
+        placeholder="Tên Loại"
+      />
+      <input type="submit" value="Tìm" />
+    </form>
+    {% if ket_qua %}
+    <ul>
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark bg-secondary">
+          <tr>
+            <td>Mã danh mục</td>
+            <td>Tên danh mục</td>
+          </tr>
+        </thead>
+        {% for danhmuc in ket_qua %}
+        <tr>
+          <td>{{ danhmuc.MaDanhMuc }}</td>
+          <td>{{ danhmuc.TenDanhMuc }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </ul>
+    {% else %}
+    <p>Không tìm thấy sản phẩm nào.</p>
+    {% endif %}
+  </div>
+
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#myModal"
+  >
+    Thêm loại mới
+  </button>
+
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Thêm loại mới</h4>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form action="/handbagsMaketplace/dsLoaiSanPham" method="post">
+            {% csrf_token %} {{ form.as_p }}
+            <input type="submit" value="Thêm Loại" />
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark bg-secondary">
+      <tr>
+        <td>Mã Loại Sản Phẩm</td>
+        <td>Tên Loại</td>
+        <td>Hành động</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tl in handbagsMaketplace_DanhMuc %}
+      <tr>
+        <td>{{ tl.MaDanhMuc }}</td>
+        <td>{{ tl.TenDanhMuc }}</td>
+        <td>
+          <form
+            action="{% url 'xoa_danh_muc' tl.MaDanhMuc %}"
+            method="post"
+            style="display: inline"
+          >
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Xóa</button>
+          </form>
+          <a href="{% url 'sua_danh_muc' tl.MaDanhMuc %}" class="btn btn-warning">Sửa</a>
+          <a href="sanpham_theo_loai/{{ tl.MaDanhMuc }}" class="btn btn-warning"
+            >Xem sách theo loại</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+<!--xoaSanPham.html -->
+{% extends "page/layout.html" %}
+{% load static %}
+
+<form method="post" action="{% url 'xoaSanPham' sanpham.id %}">
+    {% csrf_token %}
+    {{ search_form.as_p }}
+    <button type="submit">Tìm kiếm</button>
+</form>

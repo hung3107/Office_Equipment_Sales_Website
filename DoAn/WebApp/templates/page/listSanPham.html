@@ -1,0 +1,99 @@
+{% extends "page/layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Link đến Bootstrap JavaScript và jQuery -->
+
+<div class="container">
+    <div class="row">
+        <!-- List item bên trái -->
+         
+        <div class="col-md-3">
+            <div class="list-group">
+                <a class="list-group-item list-group-item-action active" aria-current="true">
+                  DANH MỤC
+                </a>
+                <a href="{% url 'ListSanPham' %}" class="list-group-item">Tất cả</a>
+                {% for danh_muc in danhmucsanpham %}
+                <a href="{% url 'listsanphamdanhmuc' danh_muc.MaDanhMuc %}" class="list-group-item">
+                    {{ danh_muc.TenDanhMuc }}
+                </a>
+                {% endfor %}
+            
+            <!-- Add Product Button-->
+            <a href="{% url 'themSanPham' %}" class="list-group-item" id="addProductLink">Thêm Sản Phẩm</a>
+            <a href="{% url 'xoaSanPham' sanpham.id %}" class="list-group-item" id="addProductLink">Xoa</a>
+
+            </div>
+        </div>
+        
+        <!-- Product list on the right -->
+        <div class="col-md-9">
+            
+            <form class="mb-3" action="{% url 'ListSanPham' %}" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm..." name="q">
+                    <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+            <div id="addProductForm" class="bg-light p-4 rounded shadow-sm mb-4" style="display: none;">
+                <div id="themSanPhamContent" style="display: none;">
+                    <!-- Add Product Button-->
+                    <a href="{% url 'themSanPham' %}" class="list-group-item" id="addProductLink" data-target="#themSanPhamContent">Thêm Sản Phẩm</a>
+
+                    </div>
+                </div>
+                
+            </div>
+            <div id="addProductForm" class="bg-light p-4 rounded shadow-sm mb-4" style="display: none;">
+                <div id="themSanPhamContent" style="display: none;">
+                    <!-- Add Product Button-->
+                    <a href="{% url 'xoaSanPham' %}" class="list-group-item" id="addProductLink" data-target="#themSanPhamContent">Tim kiem</a>
+
+                    </div>
+                </div>
+                
+            </div>
+            <div id="productList">
+            <h2 class="mb-4 text-center">Danh Sách Sản Phẩm</h2>
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-4">
+                    {% for sp in sanpham %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{% static 'images/' %}{{ sp.HinhAnhDaiDien }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ sp.TenSanPham }}</h5>
+                                <p class="card-text">{{ sp.MoTa }}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-end">
+                                <div style="color: red;">{{ sp.Gia }} VND</div>
+                                <button type="button" class="btn btn-success">Mua hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const addProductLink = document.getElementById("addProductLink");
+    const addProductForm = document.getElementById("addProductForm");
+    const productList = document.getElementById("productList");
+    const themSanPhamContent = document.getElementById("themSanPhamContent");
+
+    addProductLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        productList.style.display = "none";
+        addProductForm.style.display = "block";
+         themSanPhamContent.style.display = "block";
+    });
+});
+</script>
+
+
+{% endblock %}

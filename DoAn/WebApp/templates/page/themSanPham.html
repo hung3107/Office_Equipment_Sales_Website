@@ -1,0 +1,15 @@
+{% extends "page/layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h2>Thêm Sản Phẩm Mới</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "page/layoutAdmin.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h2>{% if danhmuc %}Sửa Danh Mục{% else %}Thêm Danh Mục Mới{% endif %}</h2>
+  </div>
+  <div class="row">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-danger">{% if danhmuc %}Lưu Thay Đổi{% else %}Thêm Danh Mục{% endif %}</button>
+      {% if danhmuc %}
+      <a href="{% url 'them_danh_muc' %}" class="btn btn-secondary">Hủy</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <div class="row">
+    <h2>Danh Sách Danh Mục</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Mã Danh Mục</th>
+          <th>Tên Danh Mục</th>
+          <th>Hành Động</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for danhmuc in danhmuc_list %}
+        <tr>
+            <td>{{ danhmuc.MaDanhMuc }}</td>
+            <td>{{ danhmuc.TenDanhMuc }}</td>
+            <td>
+              <a href="{% url 'editDanhmuc' danhmuc.MaDanhMuc %}" class="btn btn-primary btn-sm">Sửa</a>
+              <!-- Trigger for delete confirmation modal -->
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal{{ danhmuc.MaDanhMuc }}">Xóa</button>
+              <!-- Modal -->
+              <div class="modal fade" id="deleteModal{{ danhmuc.MaDanhMuc }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ danhmuc.MaDanhMuc }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteModalLabel{{ danhmuc.MaDanhMuc }}">Xóa Danh Mục</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      Bạn có chắc chắn muốn xóa danh mục "{{ danhmuc.TenDanhMuc }}"?
+                    </div>
+                    <div class="modal-footer">
+                      <form method="post" action="{% url 'editDanhmuc' danhmuc.MaDanhMuc %}">
+                        {% csrf_token %}
+                        <button type="submit" name="delete" class="btn btn-danger">Xóa</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="3">Không có danh mục nào.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}

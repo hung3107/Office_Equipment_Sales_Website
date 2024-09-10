@@ -1,0 +1,18 @@
+<!-- your_template.html -->
+{% extends "page/layout.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+  <h2>Thêm Danh Mục Mới</h2>
+ 
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-danger">Thêm Danh Mục</button>
+ 
+  </form>
+    </div>
+    </div>
+{% endblock %}

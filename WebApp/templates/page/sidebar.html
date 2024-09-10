@@ -1,0 +1,30 @@
+<div class="container-fluid bg-light rounded border p-0">
+   <ul class="list-group">
+      <li class="list-group-item text-center font-weight-bold bg-primary text-white">
+         DANH MỤC SẢN PHẨM
+      </li>
+      {% for category in categories %}
+      <li class="list-group-item">
+         <a class="text-dark" href="{% url 'product_by_category' category.MaDanhMuc %}">
+         {{ category.TenDanhMuc }}
+         </a>
+      </li>
+      {% endfor %}
+   </ul>
+</div>
+<div class="container-fluid bg-light rounded mt-3 mb-3 border p-0">
+   <ul class="list-group flex-column">
+      <li class="list-group-item text-center font-weight-bold">
+      </li>
+      <form class="d-flex" method="get" action="{% url 'ListSanPham' %}">
+      <ul class="list-group">
+          <li class="list-group-item">
+        <input name="min_price" class="form-control mr-2" placeholder="Giá tối thiểu" type="number" min="0">
+          </li>
+          <li class="list-group-item"><input name="max_price" class="form-control mr-2" placeholder="Giá tối đa" type="number" min="0"></li>
+          <li class="list-group-item"> <button class="btn btn-outline-dark" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button></li>
+      </ul>
+
+</form>
+   </ul>
+</div>

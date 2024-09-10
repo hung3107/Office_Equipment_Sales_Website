@@ -1,0 +1,11 @@
+<!-- ketQuaTim.html -->
+{% extends "page/layout.html" %}
+{% load static %}
+
+{% for product in search_results %}
+    <p>{{ product.IDSanPham }}</p>
+    <form method="post" action="{% url 'ketQuaTim' sanpham.id %}">
+        {% csrf_token %}
+        <button type="submit">Xóa</button>
+    </form>
+{% endfor %}
